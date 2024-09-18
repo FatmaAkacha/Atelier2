@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Atelier2.Models.Product>
+@{
+    ViewBag.Title = "Liste des articles";
+}
+<div class="card-group">
+    @foreach (var product in Model)
+    {
+        var photoPath = "~/images/" + (product.Image ?? "noimage.jpg");
+    <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+    <div class="card-header">
+    <h5><b>Désignation : </b> @product.Désignation</h5>
+    <h5><b>Prix : </b>@product.Prix</h5>
+    <h5><b>Quantité : </b> @product.Quantite</h5>
+    </div>
+    <img class="card-img-top imageThumbnail" src="@photoPath"
+    asp-append-version="true" />
+    <div class="card-footer text-center">
+    <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary m-1"style="background-color:#78c2ad;color:white;border:none">View</a>
+    <a asp-action="Edit" asp-controller="Product" class="btn btn-primary m-1" asp-route-id="@product.Id"style="background-color:#6cc3d5;color:white;border:none">Edit</a>
+        <a asp-action="Delete" asp-controller="Product" class="btn btn-danger m-1" asp-route-id="@product.Id"style="background-color:#ff7851;color:white;border:none">Delete</a>
+    </div>
+    </div>
+    }
+</div>
