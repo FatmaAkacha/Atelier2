@@ -1,51 +1,64 @@
 ﻿using Atelier2.Models.Repositories;
+using Atelier2.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Atelier2.Models
+public class SqlProductRepository : IRepository<Product>
 {
-    public class SqlProductRepository : IRepository<Product>
+    private readonly AppDbContext context;
+
+    public SqlProductRepository(AppDbContext context)
     {
-        private readonly AppDbContext context;
-        public SqlProductRepository(AppDbContext context)
+        this.context = context;
+    }
+
+    public Product Add(Product product)
+    {
+        context.Products.Add(product);
+        context.SaveChanges();
+        return product;
+    }
+
+    public Product Delete(int id)
+    {
+        Product product = context.Products.Find(id);
+        if (product != null)
         {
-            this.context = context;
-        }
-        public Product Add(Product P)
-        {
-            context.Products.Add(P);
+            context.Products.Remove(product);
             context.SaveChanges();
-            return P;
         }
-        public Product Delete(int Id)
-        {
-            Product P = context.Products.Find(Id);
-            if (P != null)
-            {
-                context.Products.Remove(P);
-                context.SaveChanges();
-            }
-            return P;
-        }
+        return product;
+    }
 
-        public Product Get(int Id)
-        {
-            return context.Products.Find(Id);
-        }
+    public Product Get(int id)
+    {
+        return context.Products.Find(id);
+    }
 
-        public IEnumerable<Product> GetAll()
-        {
-            return context.Products;
-        }
+    public IEnumerable<Product> GetAll()
+    {
+        return context.Products.ToList();
+    }
 
-        public Product Update(Product t)
+    public Product Update(Product product)
+    {
+        var entity = context.Products.Attach(product);
+        entity.State = EntityState.Modified;
+        context.SaveChanges();
+        return product;
+    }
+
+    // Updated Search method
+    public List<Product> Search(string term)
+    {
+        if (!string.IsNullOrEmpty(term))
         {
-            var Product =
-         context.Products.Attach(t);
-            Product.State = EntityState.Modified;
-            context.SaveChanges();
-            return t;
+            return context.Products
+                          .Where(a => a.Désignation.Contains(term))
+                          .ToList();
+        }
+        else
+        {
+            return context.Products.ToList();
         }
     }
-   
-   
 }

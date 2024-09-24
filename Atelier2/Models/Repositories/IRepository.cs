@@ -7,5 +7,6 @@
         T Add(T t);
         T Update(T t);
         T Delete(int Id);
+        List<T> Search(string term);
     }
 }

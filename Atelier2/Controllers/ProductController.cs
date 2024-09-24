@@ -138,6 +138,7 @@ namespace Atelier2.Controllers
             }
             return View(model);
         }
+
         [NonAction]
         private string ProcessUploadedFile(EditViewModel model)
         {
@@ -177,6 +178,11 @@ namespace Atelier2.Controllers
             {
                 return View();
             }
+        }
+        public ActionResult Search(string term)
+        {
+            var result = prodRepository.Search(term);
+            return View("Index", result);
         }
     }
 }

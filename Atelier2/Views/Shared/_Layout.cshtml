@@ -33,10 +33,11 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">About</a>
                         </li>
                 </ul>
-                <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" asp-controller="Product" style="background-color: white; border: none;">
-                        <button class="btn btn-secondary" type="submit" style="background-color: #f3969a;border: none;">Search</button>
-                </form>
+                    <form class="d-flex" asp-controller="Product" asp-action="Search" method="get">
+                        <input class="form-control me-2" type="search" name="term" placeholder="Search" aria-label="Search" style="background-color: white; border: none;">
+                        <button class="btn btn-secondary" type="submit" style="background-color: #f3969a; border: none;">Search</button>
+                    </form>
+
             </div>
         </div>
     </nav>
